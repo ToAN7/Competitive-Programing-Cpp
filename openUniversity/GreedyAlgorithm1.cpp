@@ -35,6 +35,5 @@ int arr[8][8] = {
 };
 
 int main() {
-	cout << "tremp\n"
 	cout << "NeggaTon is here!!!\n";
 }
