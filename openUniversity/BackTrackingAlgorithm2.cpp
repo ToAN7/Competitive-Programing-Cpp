@@ -39,8 +39,6 @@ vector<int> queen(8,0);
 
 vector<int> best(8,0);
 
-int sum = 0;
-
 int bestSum = 0;
 
 int counter = 0;
@@ -64,53 +62,49 @@ bool canPutQueen(int i, int j) {
 }
 
 void update() {
-	if (sum > bestSum) {
-		bestSum = sum;
+	int temp = 0;
+	for (int i = 0; i < 8; i++) {
+		temp += arr[i][queen[i]];
+	}
+	if (temp > bestSum) {
+		bestSum = temp;
 		best = queen;
 	}
 }
 
 void outputWeight() {
-	for (auto x: best) {
-		cout << x << ' ';
-	}
-	cout << endl << bestSum << endl;
-}
-
-int chooseBest(int row) {
-	int max = 0;
-	int colMax = -1;
 	for (int i = 0; i < 8; i++) {
-		if (arr[row][i] > max && canPutQueen(row, i) == true) {
-			max = arr[row][i];
-			colMax = i;
+		for (int j = 0; j < 8; j++) {
+			if (j == best[i]) cout << "Q ";
+			else cout << arr[i][j] << ' ';
 		}
+		cout << endl;
 	}
-	return colMax;
+	cout << "-------------------------------------\n";
 }
 
 // in each column idx find a way to put queen in column j
 // so that each queen are in unique row
 void process(int idx = 0) {
 	counter++;
-	int tmp = chooseBest(idx);
-	if (tmp == -1) return;
-	queen[idx] = tmp;
-	sum += arr[idx][tmp];
+	for (int j = 0; j < 8; j++) {
+		if (canPutQueen(idx, j) == true) {
+			queen[idx] = j;
 
-	if (idx == 7) {
-		update();
+			if (idx == 7) {
+				update();
+			}
+			else {
+				process(idx + 1);
+			}
+		}
 	}
-	else {
-		process(idx + 1);
-	}
-
-	sum -= arr[idx][tmp];
 }
 
 int main() {
 	process();
 	outputWeight();
+	cout << "best: " << bestSum << endl;
 	cout << "recursive times: " << counter << endl;
 	cout << "NeggaTon is here!!!\n";
 }
