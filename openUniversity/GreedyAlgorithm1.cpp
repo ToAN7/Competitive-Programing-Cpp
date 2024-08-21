@@ -34,6 +34,56 @@ int arr[8][8] = {
 	{8, 2, 3, 4, 2, 3, 1, 2}
 };
 
+// Create vector queen have type int contain column values
+vector<int> queen(8,0);
+
+// Row i, column j
+bool canPutQueen(int i, int j) {
+	// Check each queen from 0 to i valid
+	for (int k = 0; k < i; k++) {
+		// Check if column j match each queen
+		// If there are a queen on primary diagonal has location (a,b)
+		// then b - a equal to j - i
+		// But when exist a queen on the other diagonal
+		// then b + a equal to j + i
+		// So b - j = a - i (primary case) = i - a (other case)
+		// or in my case i - a = abs(b - j) because i always greater than a
+		if (queen[k] == j || i - k == abs(j - queen[k])) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void outputWeight() {
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (j == queen[i]) cout << "Q ";
+			else cout << arr[i][j] << ' ';
+		}
+		cout << endl;
+	}
+	cout << "-------------------------------------\n";
+}
+
+// in each column idx find a way to put queen in column j
+// so that each queen are in unique row
+void process(int idx = 0) {
+	for (int j = 0; j < 8; j++) {
+		if (canPutQueen(idx, j) == true) {
+			queen[idx] = j;
+
+			if (idx == 7) {
+				outputWeight();
+			}
+			else {
+				process(idx + 1);
+			}
+		}
+	} 
+}
+
 int main() {
+	process();
 	cout << "NeggaTon is here!!!\n";
 }
