@@ -37,6 +37,12 @@ int arr[8][8] = {
 // Create vector queen have type int contain column values
 vector<int> queen(8,0);
 
+vector<int> best(8,0);
+
+int bestSum = 0;
+
+int counter = 0;
+
 // Row i, column j
 bool canPutQueen(int i, int j) {
 	// Check each queen from 0 to i valid
@@ -55,10 +61,21 @@ bool canPutQueen(int i, int j) {
 	return true;
 }
 
+void update() {
+	int temp = 0;
+	for (int i = 0; i < 8; i++) {
+		temp += arr[i][queen[i]];
+	}
+	if (temp > bestSum) {
+		bestSum = temp;
+		best = queen;
+	}
+}
+
 void outputWeight() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (j == queen[i]) cout << "Q ";
+			if (j == best[i]) cout << "Q ";
 			else cout << arr[i][j] << ' ';
 		}
 		cout << endl;
@@ -69,21 +86,25 @@ void outputWeight() {
 // in each column idx find a way to put queen in column j
 // so that each queen are in unique row
 void process(int idx = 0) {
+	counter++;
 	for (int j = 0; j < 8; j++) {
 		if (canPutQueen(idx, j) == true) {
 			queen[idx] = j;
 
 			if (idx == 7) {
-				outputWeight();
+				update();
 			}
 			else {
 				process(idx + 1);
 			}
 		}
-	} 
+	}
 }
 
 int main() {
 	process();
+	outputWeight();
+	cout << "best: " << bestSum << endl;
+	cout << "recursive times: " << counter << endl;
 	cout << "NeggaTon is here!!!\n";
 }
