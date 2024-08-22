@@ -29,7 +29,33 @@ Case #4: 12
 using namespace std;
 
 long long largestK(long long l, long long r) {
-	for (int i = 2; i < )	
+	int x = 2;
+	int best = 1;
+
+	long long j = 1;
+
+	// 10^12 < 2^40 so the loop max is 40
+	for (int i = 1; i < 41; i++) {
+		j = j * x;
+		if (j >= l && j <= r) {
+			if (i >= best) {
+				best = i;
+			}
+		}
+		else {
+			if (i < best || x > r) {
+				break;
+			}
+			if (j > r) {
+				x++;
+				i = 0;
+				j = 1;
+			}
+		}
+
+	}
+
+	return best;
 }
 
 int main() {
@@ -38,7 +64,7 @@ int main() {
 	cin >> n;
 	for (int i = 0; i < n; i++) {
 		cin >> l >> r;
-		cout << "Case #" << i+1 << ": " << largestK(l,r);
+		cout << "Case #" << i+1 << ": " << largestK(l,r) << endl;
 	}
 	return 0;
 }
