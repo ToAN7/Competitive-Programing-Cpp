@@ -29,7 +29,7 @@ Case #4: 12
 using namespace std;
 
 long long largestK(long long l, long long r) {
-	
+	for (int i = 2; i < )	
 }
 
 int main() {
