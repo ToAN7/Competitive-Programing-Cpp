@@ -43,6 +43,10 @@ long long largestK(long long l, long long r) {
 			}
 		}
 		else {
+			// This if prevent case with assumption that greater x always have smaller k and if x > r will go into this else case 2e9 times
+			// Ex 5 and 20 will give you 2^4
+			// But when x is 3, then i will be 2
+			// So it is better to break out of the loop
 			if (i < best || x > r) {
 				break;
 			}
