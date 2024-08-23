@@ -1,7 +1,8 @@
 // Divide and conquer is the two-step process in order to minimize the loop process.
 // First is divide, you make sure that the smaller problems are having the same process with the bigger one
 // Finally is conquer, you merge smaller problems to give the answer for the bigger one
-// One of those examples are the power function. But using the for loop take the time complexity of O(n).
+// One of those examples are the power function. Using the for loop take the time complexity of O(n).
+// But using divide and conquer take the time complexity of O(logn(n))
 
 #include <iostream>
 
@@ -17,6 +18,11 @@ long long power1(int a, int n) {
 	}
 	return t;
 }
+
+// This divide and conquer came in fact that a^n = a^k*a^k with k = n/2 and n%2 == 0 or a^n = a^k*a^k*a
+// So we only need to calculate for the half of n and store it into an variable for the multiply
+// The recursive are being used for divide the k into half each time
+// So the power2 loop log2(n) times
 
 long long power2(int a, int n) {
 	counter2++;
