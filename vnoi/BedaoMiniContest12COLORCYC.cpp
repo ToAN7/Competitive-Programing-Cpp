@@ -57,8 +57,7 @@ void output() {
 	}
 }
 
-bool findLock() {
-	return true;
+void findLock() {
 }
 
 int main() {
