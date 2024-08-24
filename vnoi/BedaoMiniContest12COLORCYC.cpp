@@ -43,10 +43,21 @@ Sample Output
 */
 
 #include <iostream>
+#include <vector>
+#define MAX 200000
 
 using namespace std;
 
-bool map[20000][20000];
+vector<vector<bool>> map(MAX, vector<bool> (MAX, 0));
+int m = 0, n = 0;
+
+struct rear {
+	bool havePass;
+	int color;
+	int from;
+	int to;
+};
+vector<rear> r;
 
 void output() {
 	for (int i = 0; i < m; i++) {
@@ -57,16 +68,48 @@ void output() {
 	}
 }
 
-void findLock() {
+
+
+int colors = 1;
+void process(int idx = 0) {
+	cout << (r[idx].havePass);
+	for (int i = 0; i < m; i++) {
+		if (map[idx][i] && !r[idx].havePass) {
+			r[idx].havePass = 1;
+			r[idx].color = colors;
+			process(r[idx].to - 1);
+			r[i].color = colors;
+		}
+		else {
+			colors++;
+			return;
+		}
+	}
 }
 
 int main() {
-	int n, m;
+	// Initialize Data:
 	cin >> n >> m;
-	
+
+	r.resize(m, {0,0,0,0});
+
 	int u, v;
 	for (int i = 0; i < m; i++) {
 		cin >> u >> v;
 		map[u-1][v-1] = true;
+		r[i].from = u;
+		r[i].to = v;
 	}
+
+	// Output:
+	
+	process();
+	cout << colors << endl;
+	for (int i = 0; i < m; i++) {
+		cout << r[i].color << endl;
+	}
+
+	// Test graph output:
+	output();
+	return 0;
 }
