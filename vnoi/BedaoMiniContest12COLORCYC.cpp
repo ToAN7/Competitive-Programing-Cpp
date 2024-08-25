@@ -72,7 +72,6 @@ void output() {
 
 int colors = 1;
 void process(int idx = 0) {
-	cout << (r[idx].havePass);
 	for (int i = 0; i < m; i++) {
 		if (map[idx][i] && !r[idx].havePass) {
 			r[idx].havePass = 1;
