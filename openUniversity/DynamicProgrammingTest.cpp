@@ -62,6 +62,6 @@ int main() {
 		cin >> r[i];
 	
 	L[1] = t[0];
-	process(t, r, L, T);
+	process(t, r, L);
 	output(L);
 }
