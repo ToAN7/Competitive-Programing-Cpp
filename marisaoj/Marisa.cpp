@@ -32,7 +32,7 @@ int process(string S) {
 		if (S[i] == marisa[j]) {
 			count[j]++;
 		}
-		else if (S[i] == marisa[j+1] && j < 6) {
+		else if (count[0] != 0 && j < 6 && S[i] == marisa[j+1]) {
 			j++;
 			count[j]++;
 		}
