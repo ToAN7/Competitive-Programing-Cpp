@@ -16,49 +16,38 @@ Output: 1
 
 //#include <bits/stdc++.h>
 
+
+// BAI CUA THAY DUONG HUU THANH
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-vector<char> marisa = {'m', 'a', 'r', 'i', 's', 'a'};
+const int MOD = 1e9 + 7;
+const string target = "marisa";
+const int len = (int) target.length();
 
-int process(string S) {
-	long long counter = 0;
-	vector<long long> count(6, 0);
-	
-	int j = 0;
-	for (long long i = 0; i < S.length(); i++) {
-		if (S[i] == marisa[j]) {
-			count[j]++;
-		}
-		else if (count[0] != 0 && j < 6 && S[i] == marisa[j+1]) {
-			j++;
-			count[j]++;
-		}
-		if ((S[i] == 'm' || i == S.length() - 1) && j == 5) {
-			j = 0;
-			int temp = 1;
-			for (int k = 0; k < 6; k++) {
-				temp*=count[k];
-				count[k] = 0;
+long countSubsequences(const string &S) {
+	vector<long long> dp(len + 1, 0);
+	dp[0] = 1;
+	int counter = 0;
+
+	for (char c : S) {
+		for (int i = len; i >= 1; --i) {
+			if (c == target[i - 1]) {
+				dp[i] = (dp[i] + dp[i - 1]) % MOD;
 			}
-			counter += temp;
 		}
 	}
 
-	return counter;
+	return dp[len];
 }
 
 int main() {
-	// string S = "moarpissa marisa";
-	string S = "";
+	string S;
 
-	getline(cin, S);
+	getline(cin,S);
 
-	vector<vector<int>> L(S.length() + 1, vector<int> (marisa.size()+1));
-
-	cout << process(S) << endl;
-	
+	    cout << countSubsequences(S) << endl;
 	return 0;
 }

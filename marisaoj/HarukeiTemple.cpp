@@ -18,40 +18,20 @@ Có 7 cách để Marisa có lên tới đền: (1,1,2),(1,2,1),(2,1,1),(1,3),(3
 using namespace std;
 
 int n = -1;
+const long long  MOD = 1e9 + 7;
 
 int main() {
 	cin >> n;
 
-	// L[i][j] it a matrix of the ways to create value i using only 1 to j
-	vector<vector<long long>> L;
-	L.resize(n+1, vector<long long> (3,0));
+	vector<long long> L(n+1, 0);
 
-	for (int i = 0; i < 3; i++) {
-		L[0][i] = 1;
-	}
+	L[0] = 1;
+	for (int i = 1; i < n; i++)
+		for (int j = 1; j <= 3; j++)
+			if (i >= j)
+				L[i] = (L[i] + L[i-j]) % MOD;
 
-	for (int s = 0; s < 3; s++) {
-		for (int i = 1; i < n + 1; i++) {
-			if (i < s + 1) {
-				L[i][s] = L[i][s-1];
-			}
-			else {
-				for (int j = 0; j < s + 1; j++) {
-					L[i][s] += L[i-j-1][s];
-				}
-				L[i][s] %= 1000000007;
-			}
-		}
-	}
-
-	cout << L[n][3-1] << endl;
-
-	for (int i = 0; i < n+1; i++) {
-		for (int j = 0; j < 3; j++) {
-			cout << "L[" << i << "][" << j << "]"<< L[i][j] << ' ';
-		}
-		cout << endl;
-	}
+	cout << L[n] << endl;
 
 	return 0;
 }
