@@ -32,23 +32,25 @@ int n = 1;
 const int MOD = 100;
 
 int potionMixing(vector<int> A, int n) {
-	vector<int> L(n, 0);
-	vector<int> newPotion(n,0);
+	vector<int> L (n + 2, 0);
+	vector<int> newPotion (n + 2, 0);
 	
-	newPotion[0] = A[0];
-	for (int i = 1; i < n + 1; i++) {
-		L[i] = min(L[i-1]+(A[i]*A[i-1]),L[i-2]+newPotion[i-1]*A[i-1]);
-		if(L[i] == L[i-1]+(A[i]*A[i-1])) {
-			newPotion[i] = (A[i] + A[i-1])%MOD;
-		}
-		else {
-			newPotion[i] = (newPotion[i-1] + A[i-1])%MOD;
+	// L[i] la luong khoi it nhat toa ra khi Marisa tron i lo thuoc
+	
+	newPotion[1] = A[0];
+	for (int i = 2; i < n + 2; i++) {
+		newPotion[i] = (A[i-1]+A[i-2])%MOD;
+		for (int j = 1; j < i; j++) {
+			L[i] = min(L[i-1] + newPotion[j]*A[i-1], L[i-j] + A[i-1]*A[i-2]);
 		}
 	}
-
+	
+	for (auto x: newPotion) cout << x << endl;
+	cout << "------------------------------------\n";
 	for (auto x: L) cout << x << endl;
+	cout << "------------------------------------\n";
 
-	return L[n-1];
+	return L[n];
 }
 
 int main() {
