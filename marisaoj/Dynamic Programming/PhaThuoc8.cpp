@@ -25,32 +25,50 @@ Output: 2400
 
 #include <iostream>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
 int n = 1;
 const int MOD = 100;
 
-int potionMixing(vector<int> A, int n) {
-	vector<int> L (n + 2, 0);
-	vector<int> newPotion (n + 2, 0);
-	
-	// L[i] la luong khoi it nhat toa ra khi Marisa tron i lo thuoc
-	
-	newPotion[1] = A[0];
-	for (int i = 2; i < n + 2; i++) {
-		newPotion[i] = (A[i-1]+A[i-2])%MOD;
-		for (int j = 1; j < i; j++) {
-			L[i] = min(L[i-1] + newPotion[j]*A[i-1], L[i-j] + A[i-1]*A[i-2]);
-		}
-	}
-	
-	for (auto x: newPotion) cout << x << endl;
-	cout << "------------------------------------\n";
-	for (auto x: L) cout << x << endl;
-	cout << "------------------------------------\n";
+int potionMixing(vector<int> p, int n) {
+    vector<int> n_p(n);
+    int sum = 0;
 
-	return L[n];
+    for (int l = 1, r = n-1; l <= r;) {
+        int sml = 9999, index = 1;
+        for (int i = l; i <= r; i++) {
+            n_p[i] = min(sml, (p[i]+p[i-1])%MOD);
+            if (n_p[i] < sml) {
+                sml = n_p[i];
+                index = i;
+            }
+        }
+        sum += p[index]*p[index-1];
+        cout << endl;
+        for (auto x: p) {
+            cout << x << '\t';
+        }
+        cout << endl;
+        for (auto x: n_p) {
+            cout << x << '\t';
+        }
+        cout << endl;
+        cout << l << "-" << r << " "<<index << ":" << sum << endl;
+        if (index <= (l+r)/2) {
+            p[l] = n_p[index];
+            l++;
+            cout << "enter l"<< endl;
+        }
+        else {
+            r--;
+            p[index-1] = n_p[index];
+            cout << "enter r"<< endl;
+        }
+    }
+
+    return sum;
 }
 
 int main() {
